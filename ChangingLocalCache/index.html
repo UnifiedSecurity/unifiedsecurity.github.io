@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>LocalCache and SR Manipulation - Unified Security - Lab Repository</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "LocalCache and SR Manipulation";
+        var mkdocs_page_input_path = "ChangingLocalCache.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Unified Security - Lab Repository
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">LocalCache and SR Manipulation</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../raid/">Raid Arrays on a Xen/XCP-ng Host</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Unified Security - Lab Repository</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">LocalCache and SR Manipulation</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="changing-the-localcache-in-xcp-ngxen-server">Changing the LocalCache in xcp-ng/Xen Server</h2>
+<p>Use case: You would like to modify, move or otherwise change the Default SR that was created either manually, or (more likely) by the xcp-ng installer. After the SR is cleared of disks, you will still receive an error upon trying to remove the SR, stating "SR SR_IS_CACHE_SR". </p>
+<h2 id="command-reference">Command Reference</h2>
+<p><b>Getting the Pool ID:</b></p>
+<pre><code>xe pool-list
+</code></pre>
+<p><b>Getting the default SR in the CLI:</b></p>
+<pre><code>xe pool-param-get uuid=&lt;pool-uuid&gt; param-name=default-SR
+</code></pre>
+<p><b>Setting the default SR in the CLI:</b></p>
+<pre><code>xe pool-param-set uuid=&lt;pool-uuid&gt; default-SR=&lt;sr-uuid&gt;
+</code></pre>
+<p><b>Getting SR Details</b></p>
+<pre><code>xe sr-list //params=all for detailed info on all SR's
+</code></pre>
+<p><b>Disabling the host</b></p>
+<pre><code>xe host-disable
+</code></pre>
+<p><b>Disabling the Local Cache, host must not be active</b></p>
+<pre><code>xe host-disable-local-storage-caching
+</code></pre>
+<p><b>Detailed information about a specific SR</b></p>
+<pre><code>xe sr-list uuid=28d40d0f-1b76-229f-26f9-6f3971ca7753 params=all
+
+    uuid ( RO): 28d40d0f-1b76-229f-26f9-6f3971ca7753
+    name-label ( RW): TempRaidArray
+    name-description ( RW): Temporary Migration RAID5 Array on SAS Drives
+    host ( RO): xcp-ng1
+    allowed-operations (SRO): VDI.enable_cbt; VDI.list_changed_blocks; unplug; plug; PBD.create; VDI.disable_cbt; update; PBD.destroy; VDI.resize; VDI.clone; VDI.data_destroy; scan; VDI.snapshot; VDI.mirror; VDI.create; VDI.destroy; VDI.set_on_boot
+    current-operations (SRO):
+    VDIs (SRO): 596da612-500d-478c-9ef0-3b5ddffd1c88; 0a50ae04-91ba-40f4-bbc9-f57a5f8347cb; 177853f3-d077-4ed7-8e7f-884d790e63ec; be7536ea-e4f7-468e-93c0-1f9bb4553ba0; d6f1e08e-9a6a-4bae-bb81-667c89c57ac2; 236542f4-4e70-4ae2-8577-c70b3e23bb53
+    PBDs (SRO): b8d2de63-f119-af28-e8be-47e14fd657aa
+    virtual-allocation ( RO): 566935683072
+    physical-utilisation ( RO): 107147882496
+    physical-size ( RO): 1180752883712
+    type ( RO): ext
+    content-type ( RO): user
+    shared ( RW): false
+    introduced-by ( RO): &lt;not in database&gt;
+    is-tools-sr ( RO): false
+    other-config (MRW): auto-scan: true
+    sm-config (MRO): devserial:
+    blobs ( RO):
+    local-cache-enabled ( RO): false
+    tags (SRW):
+    clustered ( RO): false
+</code></pre>
+<p><b>Destroying an SR</b></p>
+<pre><code>xe sr-destroy uuid=74db37ab-6b1e-d76d-e3ab-245f8c919b63
+</code></pre>
+<p><b>Enabling Location Storage Caching:</b></p>
+<pre><code>xe host-enable-local-storage-caching sr-uuid=28d40d0f-1b76-229f-26f9-6f3971ca7753
+</code></pre>
+<p><b>Re-enable the Host</b></p>
+<pre><code>xe host-enable
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../raid/" class="btn btn-neutral float-right" title="Raid Arrays on a Xen/XCP-ng Host">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../raid/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
