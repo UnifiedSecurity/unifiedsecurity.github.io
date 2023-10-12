@@ -80,10 +80,9 @@
 <p>Use case: You would like to modify, move or otherwise change the Default SR that was created either manually, or (more likely) by the xcp-ng installer. After the SR is cleared of disks, you will still receive an error upon trying to remove the SR, stating "SR SR_IS_CACHE_SR". </p>
 <h2 id="command-reference">Command Reference</h2>
 <p><b>Getting the Pool ID:</b></p>
-<pre class="highlight"><code class="language-BashLexer">    xe pool-list</code></pre>
+<pre class="highlight"><code class="language-BashLexer">xe pool-list</code></pre>
 <p><b>Getting the default SR in the CLI:</b></p>
-<pre><code>xe pool-param-get uuid=&lt;pool-uuid&gt; param-name=default-SR
-</code></pre>
+<pre class="highlight"><code class="language-BashLexer">    xe pool-param-get uuid=&lt;pool-uuid&gt; param-name=default-SR</code></pre>
 <p><b>Setting the default SR in the CLI:</b></p>
 <pre><code>xe pool-param-set uuid=&lt;pool-uuid&gt; default-SR=&lt;sr-uuid&gt;
 </code></pre>
