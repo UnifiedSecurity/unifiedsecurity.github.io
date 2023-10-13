@@ -262,6 +262,33 @@
     Command Reference
   </a>
   
+    <nav class="md-nav" aria-label="Command Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pool-commands" class="md-nav__link">
+    Pool Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sr-commands" class="md-nav__link">
+    SR Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-commands" class="md-nav__link">
+    Host Commands
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -327,6 +354,33 @@
     Command Reference
   </a>
   
+    <nav class="md-nav" aria-label="Command Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pool-commands" class="md-nav__link">
+    Pool Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sr-commands" class="md-nav__link">
+    SR Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-commands" class="md-nav__link">
+    Host Commands
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -347,54 +401,57 @@
   <h1>LocalCache and SR Manipulation</h1>
 
 <h2 id="changing-the-localcache-in-xcp-ngxen-server">Changing the LocalCache in xcp-ng/Xen Server</h2>
-<p>Use case: You would like to modify, move or otherwise change the Default SR that was created either manually, or (more likely) by the xcp-ng installer. After the SR is cleared of disks, you will still receive an error upon trying to remove the SR, stating "SR SR_IS_CACHE_SR". </p>
+<p><b>Use case:</b> You would like to modify, move or otherwise change the Default SR that was created either manually, or (more likely) by the xcp-ng installer. After the SR is cleared of disks, you will still receive an error upon trying to remove the SR, stating "SR SR_IS_CACHE_SR". </p>
 <h2 id="command-reference">Command Reference</h2>
-<div class="language-bash highlight"><span class="filename">Getting the Pool ID:</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span>xe<span class="w"> </span>pool-list
+<h3 id="pool-commands">Pool Commands</h3>
+<div class="language-console highlight"><span class="filename">Getting the Pool ID:</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">    xe pool-list</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">Getting the default SR in the CLI:</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span>xe<span class="w"> </span>pool-param-get<span class="w"> </span><span class="nv">uuid</span><span class="o">=</span>&lt;pool-uuid&gt;<span class="w"> </span>param-name<span class="o">=</span>default-SR
+<div class="language-console highlight"><span class="filename">Getting the default SR in the CLI:</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">    xe pool-param-get uuid=&lt;pool-uuid&gt; param-name=default-SR</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">Setting the default SR in the CLI</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">    </span>xe<span class="w"> </span>pool-param-set<span class="w"> </span><span class="nv">uuid</span><span class="o">=</span>&lt;pool-uuid&gt;<span class="w"> </span>default-SR<span class="o">=</span>&lt;sr-uuid&gt;
+<div class="language-console highlight"><span class="filename">Setting the default SR in the CLI</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">    xe pool-param-set uuid=&lt;pool-uuid&gt; default-SR=&lt;sr-uuid&gt;</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">Getting SR Listing</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">    </span>xe<span class="w"> </span>sr-list<span class="w"> </span>//params<span class="o">=</span>all<span class="w"> </span><span class="k">for</span><span class="w"> </span>detailed<span class="w"> </span>info<span class="w"> </span>on<span class="w"> </span>all<span class="w"> </span>SR<span class="err">&#39;</span>s
+<h3 id="sr-commands">SR Commands</h3>
+<div class="language-console highlight"><span class="filename">Getting SR Listing</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">    xe sr-list //params=all for detailed info on all SR&#39;s</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">Detailed information about a specific SR (determine where LocalCache is set)</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w">    </span>xe<span class="w"> </span>sr-list<span class="w"> </span><span class="nv">uuid</span><span class="o">=</span>28d40d0f-1b76-229f-26f9-6f3971ca7753<span class="w"> </span><span class="nv">params</span><span class="o">=</span>all
+<div class="language-console highlight"><span class="filename">Detailed information about a specific SR (determine where LocalCache is set)</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">    xe sr-list uuid=28d40d0f-1b76-229f-26f9-6f3971ca7753 params=all</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span>uuid<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span>28d40d0f-1b76-229f-26f9-6f3971ca7753
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span>name-label<span class="w"> </span><span class="o">(</span><span class="w"> </span>RW<span class="o">)</span>:<span class="w"> </span>TempRaidArray
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span>name-description<span class="w"> </span><span class="o">(</span><span class="w"> </span>RW<span class="o">)</span>:<span class="w"> </span>Temporary<span class="w"> </span>Migration<span class="w"> </span>RAID5<span class="w"> </span>Array<span class="w"> </span>on<span class="w"> </span>SAS<span class="w"> </span>Drives
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span>host<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span>xcp-ng1
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span>allowed-operations<span class="w"> </span><span class="o">(</span>SRO<span class="o">)</span>:<span class="w"> </span>VDI.enable_cbt<span class="p">;</span><span class="w"> </span>VDI.list_changed_blocks<span class="p">;</span><span class="w"> </span>unplug<span class="p">;</span><span class="w"> </span>plug<span class="p">;</span><span class="w"> </span>PBD.create<span class="p">;</span><span class="w"> </span>VDI.disable_cbt<span class="p">;</span><span class="w"> </span>update<span class="p">;</span><span class="w"> </span>PBD.destroy<span class="p">;</span><span class="w"> </span>VDI.resize<span class="p">;</span><span class="w"> </span>VDI.clone<span class="p">;</span><span class="w"> </span>VDI.data_destroy<span class="p">;</span><span class="w"> </span>scan<span class="p">;</span><span class="w"> </span>VDI.snapshot<span class="p">;</span><span class="w"> </span>VDI.mirror<span class="p">;</span><span class="w"> </span>VDI.create<span class="p">;</span><span class="w"> </span>VDI.destroy<span class="p">;</span><span class="w"> </span>VDI.set_on_boot
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span>current-operations<span class="w"> </span><span class="o">(</span>SRO<span class="o">)</span>:
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span>VDIs<span class="w"> </span><span class="o">(</span>SRO<span class="o">)</span>:<span class="w"> </span>596da612-500d-478c-9ef0-3b5ddffd1c88<span class="p">;</span><span class="w"> </span>0a50ae04-91ba-40f4-bbc9-f57a5f8347cb<span class="p">;</span><span class="w"> </span>177853f3-d077-4ed7-8e7f-884d790e63ec<span class="p">;</span><span class="w"> </span>be7536ea-e4f7-468e-93c0-1f9bb4553ba0<span class="p">;</span><span class="w"> </span>d6f1e08e-9a6a-4bae-bb81-667c89c57ac2<span class="p">;</span><span class="w"> </span>236542f4-4e70-4ae2-8577-c70b3e23bb53
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span>PBDs<span class="w"> </span><span class="o">(</span>SRO<span class="o">)</span>:<span class="w"> </span>b8d2de63-f119-af28-e8be-47e14fd657aa
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span>virtual-allocation<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span><span class="m">566935683072</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span>physical-utilisation<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span><span class="m">107147882496</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">        </span>physical-size<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span><span class="m">1180752883712</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">        </span><span class="nb">type</span><span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span>ext
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">        </span>content-type<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span>user
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">        </span>shared<span class="w"> </span><span class="o">(</span><span class="w"> </span>RW<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span>introduced-by<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span>&lt;not<span class="w"> </span><span class="k">in</span><span class="w"> </span>database&gt;
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span>is-tools-sr<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span>other-config<span class="w"> </span><span class="o">(</span>MRW<span class="o">)</span>:<span class="w"> </span>auto-scan:<span class="w"> </span><span class="nb">true</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">        </span>sm-config<span class="w"> </span><span class="o">(</span>MRO<span class="o">)</span>:<span class="w"> </span>devserial:
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span>blobs<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="hll"><span class="w">        </span>local-cache-enabled<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
-</span></span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">        </span>tags<span class="w"> </span><span class="o">(</span>SRW<span class="o">)</span>:
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span>clustered<span class="w"> </span><span class="o">(</span><span class="w"> </span>RO<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="go">        uuid ( RO): 28d40d0f-1b76-229f-26f9-6f3971ca7753</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="go">        name-label ( RW): TempRaidArray</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="go">        name-description ( RW): Temporary Migration RAID5 Array on SAS Drives</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="go">        host ( RO): xcp-ng1</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="go">        allowed-operations (SRO): VDI.enable_cbt; VDI.list_changed_blocks; unplug; plug; PBD.create; VDI.disable_cbt; update; PBD.destroy; VDI.resize; VDI.clone; VDI.data_destroy; scan; VDI.snapshot; VDI.mirror; VDI.create; VDI.destroy; VDI.set_on_boot</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="go">        current-operations (SRO):</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="go">        VDIs (SRO): 596da612-500d-478c-9ef0-3b5ddffd1c88; 0a50ae04-91ba-40f4-bbc9-f57a5f8347cb; 177853f3-d077-4ed7-8e7f-884d790e63ec; be7536ea-e4f7-468e-93c0-1f9bb4553ba0; d6f1e08e-9a6a-4bae-bb81-667c89c57ac2; 236542f4-4e70-4ae2-8577-c70b3e23bb53</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="go">        PBDs (SRO): b8d2de63-f119-af28-e8be-47e14fd657aa</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="go">        virtual-allocation ( RO): 566935683072</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="go">        physical-utilisation ( RO): 107147882496</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="go">        physical-size ( RO): 1180752883712</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="go">        type ( RO): ext</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="go">        content-type ( RO): user</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="go">        shared ( RW): false</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="go">        introduced-by ( RO): &lt;not in database&gt;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="go">        is-tools-sr ( RO): false</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="go">        other-config (MRW): auto-scan: true</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="go">        sm-config (MRO): devserial:</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="go">        blobs ( RO):</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="hll"><span class="go">        local-cache-enabled ( RO): false</span>
+</span></span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="go">        tags (SRW):</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="go">        clustered ( RO): false</span>
 </span></code></pre></div>
-<p><div class="language-bash highlight"><span class="filename">Destroying an SR:</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="w">    </span>xe<span class="w"> </span>sr-destroy<span class="w"> </span><span class="nv">uuid</span><span class="o">=</span>74db37ab-6b1e-d76d-e3ab-245f8c919b63
+<div class="language-console highlight"><span class="filename">Destroying an SR:</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">    xe sr-destroy uuid=74db37ab-6b1e-d76d-e3ab-245f8c919b63</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">Disabling the host</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="w">    </span>xe<span class="w"> </span>host-disable
-</span></code></pre></div></p>
+<h3 id="host-commands">Host Commands</h3>
+<div class="language-console highlight"><span class="filename">Disabling the host</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">    xe host-disable</span>
+</span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In order to disable the host, all VM's must be migrated away from the host. </p>
 </div>
-<p><div class="language-bash highlight"><span class="filename">Disabling the Local Cache, host must not be enabled:</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="w">    </span>xe<span class="w"> </span>host-disable-local-storage-caching
+<p><div class="language-console highlight"><span class="filename">Disabling the Local Cache, host must not be enabled:</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="go">    xe host-disable-local-storage-caching</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><span class="filename">Enabling Location Storage Caching:</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="w">    </span>xe<span class="w"> </span>host-enable-local-storage-caching<span class="w"> </span>sr-uuid<span class="o">=</span>28d40d0f-1b76-229f-26f9-6f3971ca7753
+<div class="language-console highlight"><span class="filename">Enabling Location Storage Caching:</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">    xe host-enable-local-storage-caching sr-uuid=28d40d0f-1b76-229f-26f9-6f3971ca7753</span>
 </span></code></pre></div></p>
-<div class="language-bash highlight"><span class="filename">Re-enable the Host:</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w">    </span>xe<span class="w"> </span>host-enable
+<div class="language-console highlight"><span class="filename">Re-enable the Host:</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">    xe host-enable</span>
 </span></code></pre></div>
 
 
